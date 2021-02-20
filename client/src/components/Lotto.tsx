@@ -1,24 +1,8 @@
 import { Box, Button, Grid, List } from '@material-ui/core';
+import { apiService } from 'core/service/ApiService';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { getLottoNumbers } from 'shared/util/Util';
 import Ball from './Ball';
-
-/**
- * 로또 공 목록을 반환한다.
- */
-function getLottoNumbers(): Array<number> {
-    // 1~ 45가 들어있는 배열 생성
-    const randomNumbers = Array(45).fill(0).map((randomNumber, idx) => idx + 1);
-    const shuffle = [];
-    // 1~45를 랜덤하게 섞기
-    while (randomNumbers.length > 0) {
-        shuffle.push(randomNumbers.splice(Math.floor(Math.random() * randomNumbers.length), 1)[0]);
-    }
-    // shuffle의 마지막 수를 보너스 숫자로
-    const bonusNumber = shuffle[shuffle.length - 1];
-    // shuffle의 0~6번째 수를 오름차순 정렬하여 당첨 숫자로
-    const winNumbers = shuffle.splice(0, 6).sort((p, c) => p - c);
-    return [...winNumbers, bonusNumber];
-}
 
 function Lotto() {
     /**
@@ -49,17 +33,6 @@ function Lotto() {
     const timeouts = useRef([] as any);
 
     /**
-     * 초기화
-     */
-    const onResetNumber = useCallback(() => {  // 초기화
-        setLottoNumbers(getLottoNumbers());
-        setLottoBalls([]);
-        setBonus(null);
-        setIsRedo(false);
-        timeouts.current = [];
-    }, [lottoNumbers]);
-
-    /**
      * 리액트 hook
      */
     useEffect(() => {
@@ -84,7 +57,23 @@ function Lotto() {
         }
     }, [timeouts.current]);
 
+    /**
+     * 초기화
+     */
+    const onResetNumber = useCallback(() => {  // 초기화
+        setLottoNumbers(getLottoNumbers());
+        setLottoBalls([]);
+        setBonus(null);
+        setIsRedo(false);
+        timeouts.current = [];
+    }, [lottoNumbers]);
 
+    const receive = () => {
+        apiService().get('lotto/last')
+            .then(res => {
+                console.log(res);
+            })
+    }
 
     return (
         <>
@@ -94,8 +83,9 @@ function Lotto() {
             >
                 <Grid item>
                     <Box component='h1'>
-                        당첨 결과
+                        몇일자 당첨 번호
                     </Box>
+                    <Button variant="contained" color="primary" onClick={receive}>당첨번호 가져오기</Button>
                 </Grid>
 
                 <Grid item>
@@ -112,7 +102,7 @@ function Lotto() {
                         보너스
                     </Box>
                     {bonus && <Ball lottoNumber={bonus} />}
-                    {isRedo && <Button onClick={onResetNumber}>한 번 더!</Button>}
+                    {isRedo && <Button variant="contained" color="primary" onClick={onResetNumber}>한 번 더!</Button>}
                 </Grid>
             </Grid>
         </>
