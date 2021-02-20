@@ -18,35 +18,50 @@ function getWinNumbers(): Array<number> {
 }
 
 function Lotto() {
-    const [winNumbers, setWinNumbers] = useState(getWinNumbers());
-    const [winBalls, setWinBalls] = useState([] as any);
+    /**
+     * 로또 번호
+     */
+    const [lottoNumbers, setLottoNumbers] = useState(getWinNumbers());
+    /**
+     * 로또 공
+     */
+    const [lottoBalls, setLottoBalls] = useState([] as any);
+    /**
+     * 보너스
+     */
     const [bonus, setBonus] = useState(null);
-    const [redo, setRedo] = useState(false);
+    /**
+     * 다시 하기
+     */
+    const [isRedo, setIsRedo] = useState(false);
+    /**
+     * 시간 목록
+     */
     const timeouts = useRef([] as any);
 
     /**
      * 초기화
      */
     const onResetNumber = () => {
-        setWinNumbers(getWinNumbers());
-        setWinBalls([]);
+        setLottoNumbers(getWinNumbers());
+        setLottoBalls([]);
         setBonus(null);
-        setRedo(false);
+        setIsRedo(false);
         timeouts.current = [];
     };
 
     useEffect(() => {
          // 1초 간격으로 출력
-        for(let i = 0 ; i < winNumbers.length - 1; i++){
+        for(let i = 0 ; i < lottoNumbers.length - 1; i++){
             timeouts.current[i] = setTimeout(() => {
-                setWinBalls((prevBalls: any) => [...prevBalls, winNumbers[i]]);
+                setLottoBalls((prevBalls: any) => [...prevBalls, lottoNumbers[i]]);
             }, (i + 1) * 1000);
         }
 
         // 보너스공
         timeouts.current[6] = setTimeout(() => { 
-            setBonus(winNumbers[1] as any);
-            setRedo(true);
+            setBonus(lottoNumbers[1] as any);
+            setIsRedo(true);
         }, 7000);
 
         // 해제
@@ -76,7 +91,7 @@ function Lotto() {
                         결과창
                     </Box>
                     <List>
-                        {winBalls.map((winBall: any, idx: any) => <Ball key={idx} lottoNumber={winBall}/>)}
+                        {lottoBalls.map((winBall: any, idx: any) => <Ball key={idx} lottoNumber={winBall}/>)}
                     </List>
                 </Grid>
 
@@ -85,7 +100,7 @@ function Lotto() {
                         보너스
                     </Box>
                     {bonus && <Ball lottoNumber={bonus}/>}
-                    {redo && <Button onClick={onResetNumber}>한 번 더!</Button>}
+                    {isRedo && <Button onClick={onResetNumber}>한 번 더!</Button>}
                 </Grid>
 
 
