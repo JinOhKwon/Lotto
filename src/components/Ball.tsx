@@ -1,5 +1,8 @@
 import React, {FC, memo} from 'react';
 
+/**
+ * 볼 전달 데이터
+ */
 interface BallProps {
     lottoNumber: number | null
 }

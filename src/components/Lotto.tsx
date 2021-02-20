@@ -2,7 +2,10 @@ import { Box, Button, Grid, List } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import Ball from './Ball';
 
-function getWinNumbers(): Array<number> {
+/**
+ * 로또 공 목록을 반환한다.
+ */
+function getLottoNumbers(): Array<number> {
     // 1~ 45가 들어있는 배열 생성
     const randomNumbers = Array(45).fill(0).map((randomNumber, idx) => idx + 1);
     const shuffle = [];
@@ -21,7 +24,7 @@ function Lotto() {
     /**
      * 로또 번호
      */
-    const [lottoNumbers, setLottoNumbers] = useState(getWinNumbers());
+    const [lottoNumbers, setLottoNumbers] = useState(getLottoNumbers());
     /**
      * 로또 공
      */
@@ -43,13 +46,16 @@ function Lotto() {
      * 초기화
      */
     const onResetNumber = () => {
-        setLottoNumbers(getWinNumbers());
+        setLottoNumbers(getLottoNumbers());
         setLottoBalls([]);
         setBonus(null);
         setIsRedo(false);
         timeouts.current = [];
     };
 
+    /**
+     * 리액트 hook
+     */
     useEffect(() => {
          // 1초 간격으로 출력
         for(let i = 0 ; i < lottoNumbers.length - 1; i++){
@@ -102,8 +108,6 @@ function Lotto() {
                     {bonus && <Ball lottoNumber={bonus}/>}
                     {isRedo && <Button onClick={onResetNumber}>한 번 더!</Button>}
                 </Grid>
-
-
             </Grid>
         </>
     );
