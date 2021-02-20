@@ -1,4 +1,7 @@
 {
+  "rules": {
+    "no-unused-vars": "off"
+  },
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -6,6 +9,14 @@
       "dom.iterable",
       "esnext"
     ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types"
+    ],
+    "baseUrl": "src",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -18,9 +29,20 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
+  "exclude": [
+    "node_modules"
+  ],
   "include": [
+    "react-app-env.d.ts",
     "src"
   ]
 }
