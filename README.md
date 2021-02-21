@@ -13,26 +13,24 @@
  
 ---
 
-# 실행 방법
+## 실행 방법
   1. npm install -g yarn
   2. yarn install
   3. yarn start
 
 ---
 
-# build 방법
-
-## 안드로이드
+## build 방법
+### 안드로이드
 
 1. expo build:android
 2. expo 계정 연결
 
-## IOS (애플 스토어 인증 받고 빌드 테스트 필요)
+### IOS (애플 스토어 인증 받고 빌드 테스트 필요)
 
-1. expo build:ios
-    
-
-[EXPO](https://docs.expo.io/distribution/building-standalone-apps/, "expo link")
+1. expo build:ios  
+2. 빌드 참고
+[EXPO Site](https://docs.expo.io/distribution/building-standalone-apps/, "expo link")
 
 ## TODO 
    - android에서 로또 api 호출시 에러 원인 확인 필요(ios는 잘됨)
